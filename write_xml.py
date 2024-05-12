@@ -12,8 +12,8 @@ schema = StructType([
 ])
 
 df = spark.createDataFrame(data, schema)
-
-xmlFile = "output/xml/file.xml"
+xml_nm = "dummy"
+xmlFile = f"output/xml/{xml_nm}.xml"
 
 df \
     .select(struct("id", "name").alias("root")) \
@@ -22,6 +22,7 @@ df \
     .format('com.databricks.spark.xml') \
     .option('rootTag', 'root') \
     .option('rowTag', 'row') \
+    .mode('overwrite') \
     .save(xmlFile)
 
 # Stop SparkSession
